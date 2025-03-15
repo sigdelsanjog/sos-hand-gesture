@@ -1,0 +1,48 @@
+# Ignore node_modules (React)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore build files (React)
+build/
+dist/
+.DS_Store
+
+# Ignore FastAPI dependencies and virtual environments
+venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore FastAPI logs & cache
+logs/
+*.log
+*.sqlite3
+db.sqlite3
+alembic/
+
+# Ignore Python cache
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Ignore uploads & media files
+uploads/
+media/
+
+# Ignore VS Code settings
+.vscode/
+.idea/
+
+# Ignore Linux/macOS system files
+*.swp
+*.swo
+Thumbs.db
