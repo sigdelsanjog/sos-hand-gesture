@@ -21,17 +21,16 @@ const VideoUpload = ({ videoUrl, refreshGallery }) => {
                 throw new Error("Upload failed");
             }
 
-            setNotification({ type: "success", message: "Video uploaded successfully!" });
+            setNotification({ type: "success", message: "✅ Video uploaded successfully!" });
 
-            if (typeof refreshGallery === "function") {
-                refreshGallery(); // Refresh video list after upload
-            }
+             // Refresh video gallery immediately
+            refreshGallery();
 
             // Auto-hide notification after 10s
             setTimeout(() => setNotification(null), 10000);
         } catch (error) {
-            console.error("Error uploading video:", error);
-            setNotification({ type: "error", message: "Failed to upload video. Try again." });
+            console.error("❌Error uploading video:", error);
+            setNotification({ type: "error", message: "❌Failed to upload video. Try again." });
         }
     };
 

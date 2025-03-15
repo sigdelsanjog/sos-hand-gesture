@@ -20,6 +20,11 @@ const App = () => {
         }
     };
 
+    const refreshPage = () => {
+        window.location.reload();
+    };
+    
+
     // Load videos on app load
     useEffect(() => {
         refreshGallery();
@@ -28,7 +33,7 @@ const App = () => {
     return (
         <div className="container mt-5 text-center">
             {/* Home Button */}
-            <button className="btn btn-primary mb-3" onClick={refreshGallery}>
+            <button className="btn btn-primary mb-3" onClick={refreshPage}>
                 🏠 Home
             </button>
 
