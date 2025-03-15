@@ -3,13 +3,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CameraCapture from "./components/CameraCapture";
 import VideoUpload from "./components/VideoUpload";
 import PredictionResult from "./components/PredictionResult";
+import VideoGallery from "./components/VideoGallery";
+
 
 const App = () => {
     const [videoUrl, setVideoUrl] = useState(null);
 
+    // Function to refresh the page
+    const refreshPage = () => {
+        window.location.reload();
+    };
+
     return (
         <div className="container mt-5 text-center">
-            <h2 className="mb-3">Hand Gesture Stress Detection</h2>
+            {/* Home Button */}
+            <button className="btn btn-primary mb-3" onClick={refreshPage}>
+                🏠 Home
+            </button>
+
+            <h2 className="mb-3">Hand Gesture Detection</h2>
             
             {/* Camera Capture Component */}
             <CameraCapture setVideoUrl={setVideoUrl} />
@@ -19,6 +31,10 @@ const App = () => {
 
             {/* Prediction Results */}
             <PredictionResult />
+
+            {/* Video Gallery */}
+            <VideoGallery />
+            
         </div>
     );
 };
