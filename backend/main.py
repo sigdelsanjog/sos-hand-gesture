@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
@@ -18,18 +19,40 @@ app.add_middleware(
 
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+
+# Function to get the next available filename
+def get_next_filename():
+    existing_files = [f for f in os.listdir(UPLOAD_DIR) if f.startswith("gesture_") and f.endswith(".webm")]
+    if not existing_files:
+        return "gesture_1.webm"
+    
+    existing_ids = [int(f.split("_")[-1].split(".")[0]) for f in existing_files if f.split("_")[-1].split(".")[0].isdigit()]
+    next_id = max(existing_ids, default=0) + 1
+    return f"gesture_{next_id}.webm"
 
 @app.post("/upload-video/")
 async def upload_video(video: UploadFile = File(...)):
     try:
-        video_path = os.path.join(UPLOAD_DIR, video.filename)
+        video_path = os.path.join(UPLOAD_DIR, get_next_filename())
 
         # ✅ Save the uploaded video file
         with open(video_path, "wb") as buffer:
-            shutil.copyfileobj(video.file, buffer)
+                buffer.write(await video.read())
+
 
         return {"message": "Video uploaded successfully", "file_path": video_path}
     
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.get("/videos")
+def list_videos():
+    try:
+        videos = [f for f in os.listdir(UPLOAD_DIR) if f.endswith(".webm")]
+        return videos
     except Exception as e:
         return {"error": str(e)}
 
