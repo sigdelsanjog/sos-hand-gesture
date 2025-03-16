@@ -1,44 +1,45 @@
 import React, { useEffect, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import VideoUpload from "./VideoUpload";
 
 const VideoGallery = () => {
-    const [videos, setVideos] = useState([]); // Ensure videos is always an array
+    const [videos, setVideos] = useState([]);
+    const [videoUrl, setVideoUrl] = useState(null);
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/videos")
-            .then((response) => response.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setVideos(data);
-                } else {
-                    setVideos([]); // Handle case where response is not an array
-                }
-            })
-            .catch((error) => {
+        const fetchVideos = async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/videos");
+                const data = await response.json();
+                setVideos(data);
+            } catch (error) {
                 console.error("Error fetching videos:", error);
-                setVideos([]); // Ensure videos is always an array
-            });
+            }
+        };
+        fetchVideos();
     }, []);
+
+    // Select the first video to display its frames
+    const selectVideo = (video) => {
+        setVideoUrl(`http://127.0.0.1:8000/uploads/${video}`);
+    };
 
     return (
         <div className="mt-4">
-            <h3>Uploaded Videos</h3>
-            <div className="d-flex flex-wrap justify-content-center">
-                {videos.length > 0 ? (
-                    videos.map((video, index) => (
-                        <div key={index} className="m-2 text-center">
-                            <video
-                                src={`http://127.0.0.1:8000/uploads/${video}`}
-                                width="200"
-                                controls
-                            />
-                            <p className="mt-1">{video}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No videos uploaded yet.</p>
-                )}
+            <h5>Video Gallery:</h5>
+            <div className="video-gallery">
+                {videos.map((video, index) => (
+                    <div key={index} className="video-item" onClick={() => selectVideo(video)}>
+                        <video width="200" controls>
+                            <source src={`http://127.0.0.1:8000/uploads/${video}`} type="video/webm" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <p>{video}</p>
+                    </div>
+                ))}
             </div>
+
+            {/* Show selected video and frames */}
+            {videoUrl && <VideoUpload videoUrl={videoUrl} />}
         </div>
     );
 };
