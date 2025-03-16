@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -102,7 +102,7 @@ def extract_frames(video_path, fps, duration):
 
 
 @app.post("/upload-video/")
-async def upload_video(video: UploadFile = File(...),  fps: int = 3, duration: int = 10):
+async def upload_video(video: UploadFile = File(...),  fps: int = Form(...), duration: int = Form(...)):
     try:
         # Generate a unique ID for the video to avoid conflicts
         video_id = str(uuid.uuid4())

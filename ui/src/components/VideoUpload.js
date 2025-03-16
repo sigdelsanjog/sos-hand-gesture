@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const VideoUpload = ({ videoUrl }) => {
-    const [fps, setFps] = useState(3); // Default FPS
-    const [duration, setDuration] = useState(10); // Default Duration in seconds
+    const [fps, setFps] = useState([]); // Default FPS
+    const [duration, setDuration] = useState([]); // Default Duration in seconds
     const [frames, setFrames] = useState([]); // Initialize frames as an empty array
 
     const uploadVideo = async () => {
