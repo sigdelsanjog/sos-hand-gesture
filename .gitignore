@@ -37,7 +37,6 @@ __pycache__/
 # Ignore uploads & media files
 uploads/
 media/
-frames/
 
 # Ignore VS Code settings
 .vscode/
